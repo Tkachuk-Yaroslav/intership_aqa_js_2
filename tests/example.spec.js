@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 
+// test case 1
 // test("Registration of a user on the website using valid data", async ({
 //   page,
 // }) => {
@@ -28,41 +29,63 @@ import { test, expect } from "@playwright/test";
 //   await expect(page).toHaveURL("https://www.redmine.org/login");
 // });
 
-test("Registration of a user on the website using invalid email", async ({
-  page,
-}) => {
-  await page.goto("https://www.redmine.org/");
+// test case 2
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle("Overview - Redmine");
+// test("Registration of a user on the website using invalid email", async ({
+//   page,
+// }) => {
+//   await page.goto("https://www.redmine.org/");
 
-  // Клік по лінку за допомогою CSS селектора
-  await page.locator("#account > ul > li > a.register").click();
-  await page.locator("#user_login").click();
-  await page.locator("#user_login").fill("loginforrkachuk2");
-  await page.locator("#user_password").fill("passwordfortesting");
-  await page.locator("#user_password_confirmation").fill("passwordfortesting");
-  await page.locator("#user_firstname").fill("Tom");
-  await page.locator("#user_lastname").fill("Anderson");
-  await page.locator("#user_mail").fill("mailfotaqa1@qwe");
-  await page.locator('form>input[type="submit"]').click();
+//   // Expect a title "to contain" a substring.
+//   await expect(page).toHaveTitle("Overview - Redmine");
 
-  // Перевірка, що елемент має потрібний текст
-  const errorMessage = page.locator("#errorExplanation>ul>li");
-  await expect(errorMessage).toHaveText("Email is invalid");
+//   // Клік по лінку за допомогою CSS селектора
+//   await page.locator("#account > ul > li > a.register").click();
+//   await page.locator("#user_login").click();
+//   await page.locator("#user_login").fill("loginforrkachuk2");
+//   await page.locator("#user_password").fill("passwordfortesting");
+//   await page.locator("#user_password_confirmation").fill("passwordfortesting");
+//   await page.locator("#user_firstname").fill("Tom");
+//   await page.locator("#user_lastname").fill("Anderson");
+//   await page.locator("#user_mail").fill("mailfotaqa1@qwe");
+//   await page.locator('form>input[type="submit"]').click();
 
-  // Перевірка, чи відбулося перенаправлення на сторінку входу
-  await expect(page).toHaveURL("https://www.redmine.org/account/register");
-});
+//   // Перевірка, що елемент має потрібний текст
+//   const errorMessage = page.locator("#errorExplanation>ul>li");
+//   await expect(errorMessage).toHaveText("Email is invalid");
 
-// test("get started link", async ({ page }) => {
-//   await page.goto("https://playwright.dev/");
+//   // Перевірка, чи відбулося перенаправлення на сторінку входу
+//   await expect(page).toHaveURL("https://www.redmine.org/account/register");
+// });
 
-//   // Click the get started link.
-//   await page.getByRole("link", { name: "Get started" }).click();
+// //test case 3
+// test("Check the documentation on the User's Guide page", async ({ page }) => {
+//   await page.goto("https://www.redmine.org/");
 
-//   // Expects page to have a heading with the name of Installation.
-//   await expect(
-//     page.getByRole("heading", { name: "Installation" })
-//   ).toBeVisible();
+//   //знаходжу елемент, провіряю чи видимий і скролю
+//   const docsSection = page.locator('h2:has-text("Documentation")');
+//   await expect(docsSection).toBeVisible();
+//   await docsSection.scrollIntoViewIfNeeded();
+
+//   const guideLink = page.locator(
+//     '#content ul>li>a[href="/projects/redmine/wiki/Guide"]'
+//   );
+//   await guideLink.click();
+
+//   const element = await page.$("#mys-content div span.ns-4yg5c-e-18");
+
+//   if (element) {
+//     await element.click();
+//   } else {
+//     console.log("Елемент не знайдено на сторінці");
+//   }
+
+//   // await expect(page).toHaveURL(
+//   //   "https://www.redmine.org/projects/redmine/wiki/Guide"
+//   // );
+
+//   //знаходжу елемент, провіряю чи видимий і скролю
+//   const guideSection = page.locator('h2:has-text("User guide")');
+//   await expect(guideSection).toBeVisible();
+//   await guideSection.scrollIntoViewIfNeeded();
 // });
