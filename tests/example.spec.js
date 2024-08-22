@@ -5,6 +5,25 @@ test("has title", async ({ page }) => {
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle("Overview - Redmine");
+
+  // Клік по лінку за допомогою CSS селектора
+  await page.locator("#account > ul > li > a.register").click();
+  await page.locator("#user_login").click();
+  await page.locator("#user_login").fill("loginforrkachuk1");
+  await page.locator("#user_password").fill("passwordfortesting");
+  await page.locator("#user_password_confirmation").fill("passwordfortesting");
+  await page.locator("#user_firstname").fill("Tom");
+  await page.locator("#user_lastname").fill("Anderson");
+  await page.locator("#user_mail").fill("mailfotaqa1@gmail.com");
+  await page.locator('form>input[type="submit"]').click();
+  // page.locator("#flash_notice");
+  // await expect(page).toHaveURL("https://www.redmine.org/login");
+  // Перевірка, чи з'явилося повідомлення про успішну реєстрацію
+  const flashNotice = page.locator("#flash_notice");
+  await expect(flashNotice).toHaveAttribute("class", "flash notice");
+
+  // Перевірка, чи відбулося перенаправлення на сторінку входу
+  await expect(page).toHaveURL("https://www.redmine.org/login");
 });
 
 // test("get started link", async ({ page }) => {
