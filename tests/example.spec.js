@@ -89,3 +89,13 @@ import { test, expect } from "@playwright/test";
 //   await expect(guideSection).toBeVisible();
 //   await guideSection.scrollIntoViewIfNeeded();
 // });
+
+// test case 4
+test("Check the documentation on the User's Guide page", async ({ page }) => {
+  await page.goto("https://www.redmine.org/");
+
+  //знаходжу елемент, провіряю чи видимий і скролю
+  const issuelsLink = page.locator('#main-menu a[class="issues"]');
+  await expect(issuelsLink).toBeVisible();
+  await issuelsLink.click();
+});
