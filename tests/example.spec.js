@@ -116,11 +116,52 @@ test("Check the documentation on the User's Guide page", async ({ page }) => {
 });
 
 // test case 4
-// test("Check the documentation on the User's Guide page", async ({ page }) => {
-//   await page.goto("https://www.redmine.org/");
+test('Filtering the data on the "issues" page', async ({ page }) => {
+  await page.goto("https://www.redmine.org/");
 
-//   //знаходжу елемент, провіряю чи видимий і скролю
-//   const issuelsLink = page.locator('#main-menu a[class="issues"]');
-//   await expect(issuelsLink).toBeVisible();
-//   await issuelsLink.click();
-// });
+  //знаходжу елемент, провіряю чи видимий і скролю
+  const issuelsLink = page.locator('#main-menu a[class="issues"]');
+  await expect(issuelsLink).toBeVisible();
+  await issuelsLink.click();
+
+  ///////////////////////////////////////////////////////////////
+  await page.waitForTimeout(500);
+
+  // Знаходимо зовнішній iframe
+  const outerFrame = page.frameLocator("#aswift_6");
+  // Всередині зовнішнього iframe знаходимо внутрішній iframe
+  const innerFrame = outerFrame.frameLocator("#ad_iframe");
+
+  // У внутрішньому iframe знаходимо кнопку і клікаємо по ній
+  const dismissButton = innerFrame.locator("#dismiss-button");
+
+  if (await dismissButton.count()) await dismissButton.click();
+  ////////////////////////////////////////////////////////////////
+  await expect(page).toHaveURL(
+    "https://www.redmine.org/projects/redmine/issues"
+  );
+
+  const filterSelect = page.locator("#add_filter_select");
+  await filterSelect.selectOption("tracker_id");
+
+  await page.waitForTimeout(500);
+
+  const applyLink = page.locator("#query_form_content+p>a:first-child");
+  await applyLink.click();
+
+  await page.waitForTimeout(500);
+
+  const rows = page.locator("tbody > tr td.tracker");
+  console.log("rows", rows);
+  const rowCount = await rows.count();
+  console.log("rowsCount", rowCount);
+
+  if (rowCount === 0) {
+    throw new Error("No rows found in the table");
+  }
+
+  for (let i = 0; i < rowCount; i++) {
+    const trackerText = await rows.nth(i).textContent();
+    expect(trackerText.trim()).toBe("Defect");
+  }
+});
