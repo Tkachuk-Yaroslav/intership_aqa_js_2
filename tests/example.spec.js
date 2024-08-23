@@ -58,7 +58,7 @@ import { test, expect } from "@playwright/test";
 //   await expect(page).toHaveURL("https://www.redmine.org/account/register");
 // });
 
-// //test case 3
+//test case 3
 test("Check the documentation on the User's Guide page", async ({ page }) => {
   await page.goto("https://www.redmine.org/");
 
@@ -83,11 +83,17 @@ test("Check the documentation on the User's Guide page", async ({ page }) => {
 
   // У внутрішньому iframe знаходимо кнопку і клікаємо по ній
   const dismissButton = innerFrame.locator("#dismiss-button");
+  // let dismissButton = null;
+  // if (innerFrame) {
+  //   dismissButton = innerFrame.locator("#dismiss-button");
+  // } else {
+  //   dismissButton = outerFrame.locator("#dismiss-button");
+  // }
 
+  if (await dismissButton.count()) await dismissButton.click();
   // if (await expect(dismissButton).toBeVisible()) {
   //   await dismissButton.click();
   // }
-  await dismissButton.click();
 
   //знаходжу елемент, провіряю чи видимий і скролю
   const guideSection = page.locator('h2:has-text("User guide")');
