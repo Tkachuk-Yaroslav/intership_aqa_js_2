@@ -83,6 +83,10 @@ test("Check the documentation on the User's Guide page", async ({ page }) => {
 
   // У внутрішньому iframe знаходимо кнопку і клікаємо по ній
   const dismissButton = innerFrame.locator("#dismiss-button");
+
+  // if (await expect(dismissButton).toBeVisible()) {
+  //   await dismissButton.click();
+  // }
   await dismissButton.click();
 
   //знаходжу елемент, провіряю чи видимий і скролю
