@@ -165,3 +165,29 @@ test('Filtering the data on the "issues" page', async ({ page }) => {
     expect(trackerText.trim()).toBe("Defect");
   }
 });
+
+// test case 5
+test("Changing the password on the user page", async ({ page }) => {
+  await page.goto("https://www.redmine.org/");
+
+  await page.locator("#account > ul > li > a.login").click();
+  /////////////////////////////////////////////////////
+  await page.locator("#username").fill("tkachuky105105");
+  await page.locator("#password").fill("Qweqweqwe");
+  await page.locator("#login-submit").click();
+  ///////////////////////////////////////////////////////
+  await page.locator("#account > ul > li > a.my-account").click();
+  await page.locator("#content a.icon-passwd").click();
+
+  await page.locator("#password").fill("Qweqweqwe");
+  await page.locator("#new_password").fill("Qweqweqwe1234");
+  await page.locator("#new_password_confirmation").fill("Qweqweqwe1234");
+
+  await page.locator('form>input[type="submit"]').click();
+
+  await expect(page).toHaveURL("https://www.redmine.org/my/account");
+
+  await page.locator("#flash_notice").toHaveText("Пароль успішно оновлений.");
+
+  await page.waitForTimeout(500);
+});
