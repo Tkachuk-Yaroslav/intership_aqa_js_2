@@ -59,43 +59,58 @@ import { test, expect } from "@playwright/test";
 // });
 
 // //test case 3
-// test("Check the documentation on the User's Guide page", async ({ page }) => {
-//   await page.goto("https://www.redmine.org/");
-
-//   //знаходжу елемент, провіряю чи видимий і скролю
-//   const docsSection = page.locator('h2:has-text("Documentation")');
-//   await expect(docsSection).toBeVisible();
-//   await docsSection.scrollIntoViewIfNeeded();
-
-//   const guideLink = page.locator(
-//     '#content ul>li>a[href="/projects/redmine/wiki/Guide"]'
-//   );
-//   await guideLink.click();
-
-//   const element = await page.$("#mys-content div span.ns-4yg5c-e-18");
-
-//   if (element) {
-//     await element.click();
-//   } else {
-//     console.log("Елемент не знайдено на сторінці");
-//   }
-
-//   // await expect(page).toHaveURL(
-//   //   "https://www.redmine.org/projects/redmine/wiki/Guide"
-//   // );
-
-//   //знаходжу елемент, провіряю чи видимий і скролю
-//   const guideSection = page.locator('h2:has-text("User guide")');
-//   await expect(guideSection).toBeVisible();
-//   await guideSection.scrollIntoViewIfNeeded();
-// });
-
-// test case 4
 test("Check the documentation on the User's Guide page", async ({ page }) => {
   await page.goto("https://www.redmine.org/");
 
   //знаходжу елемент, провіряю чи видимий і скролю
-  const issuelsLink = page.locator('#main-menu a[class="issues"]');
-  await expect(issuelsLink).toBeVisible();
-  await issuelsLink.click();
+  const docsSection = page.locator('h2:has-text("Documentation")');
+  await expect(docsSection).toBeVisible();
+  await docsSection.scrollIntoViewIfNeeded();
+
+  const guideLink = page.locator(
+    '#content ul>li>a[href="/projects/redmine/wiki/Guide"]'
+  );
+  await guideLink.click();
+
+  // Чекаємо певний час перед повторною перевіркою
+  await page.waitForTimeout(500);
+
+  // Знаходимо зовнішній iframe
+  const outerFrame = page.frameLocator("#aswift_6");
+
+  // Всередині зовнішнього iframe знаходимо внутрішній iframe
+  const innerFrame = outerFrame.frameLocator("#ad_iframe");
+
+  // У внутрішньому iframe знаходимо кнопку і клікаємо по ній
+  const dismissButton = innerFrame.locator("#dismiss-button");
+  await dismissButton.click();
+
+  //знаходжу елемент, провіряю чи видимий і скролю
+  const guideSection = page.locator('h2:has-text("User guide")');
+  await expect(guideSection).toBeVisible();
+  await guideSection.scrollIntoViewIfNeeded();
+
+  const getStartedLink = page.locator(
+    'a[href="/projects/redmine/wiki/Getting_Started"]'
+  );
+  await getStartedLink.click();
+
+  await expect(page).toHaveURL(
+    "https://www.redmine.org/projects/redmine/wiki/Getting_Started"
+  );
+
+  const expectedText = "Step One -- Creating a project¶";
+
+  const stepOne = page.locator("#content > div.wiki-page > h2:nth-child(6)");
+  await expect(stepOne).toHaveText(expectedText);
 });
+
+// test case 4
+// test("Check the documentation on the User's Guide page", async ({ page }) => {
+//   await page.goto("https://www.redmine.org/");
+
+//   //знаходжу елемент, провіряю чи видимий і скролю
+//   const issuelsLink = page.locator('#main-menu a[class="issues"]');
+//   await expect(issuelsLink).toBeVisible();
+//   await issuelsLink.click();
+// });
