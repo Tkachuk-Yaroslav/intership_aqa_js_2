@@ -1,35 +1,57 @@
 import { test, expect } from "@playwright/test";
-// import SignUpPage from "../pages/Home.page.js";
+import checkURL from "../helpers/urlChecker.js";
+import HomePage from "../pages/Home.page.js";
 import SignUpPage from "../pages/SignUp.page.js";
+import LoginPage from "../pages/Login.page.js";
 
-// // test case 1
-// test("Registration of a user on the website using valid data", async ({
-//   page,
-// }) => {
-//   await page.goto("https://www.redmine.org/");
+// test case 1
+test("Registration of a user on the website using valid data", async ({
+  page,
+}) => {
+  const signUpPage = new SignUpPage(page);
+  const homePage = new HomePage(page);
+  const loginPage = new LoginPage(page);
 
-//   // Expect a title "to contain" a substring.
-//   await expect(page).toHaveTitle("Overview - Redmine");
+  await page.goto("https://www.redmine.org/");
 
-//   // Клік по лінку за допомогою CSS селектора
-//   await page.locator("#account > ul > li > a.register").click();
-//   await page.locator("#user_login").click();
-//   await page.locator("#user_login").fill("loginforrkachuk123");
-//   await page.locator("#user_password").fill("passwordfortesting");
-//   await page.locator("#user_password_confirmation").fill("passwordfortesting");
-//   await page.locator("#user_firstname").fill("Tom");
-//   await page.locator("#user_lastname").fill("Anderson");
-//   await page.locator("#user_mail").fill("mailfotaqa123@gmail.com");
-//   await page.locator('form>input[type="submit"]').click();
-//   // page.locator("#flash_notice");
-//   // await expect(page).toHaveURL("https://www.redmine.org/login");
-//   // Перевірка, чи з'явилося повідомлення про успішну реєстрацію
-//   const flashNotice = page.locator("#flash_notice");
-//   await expect(flashNotice).toHaveAttribute("class", "flash notice");
+  // Expect a title "to contain" a substring.
+  // // await expect(page).toHaveTitle("Overview - Redmine");
+  await homePage.checkPageTitle("Overview - Redmine");
 
-//   // Перевірка, чи відбулося перенаправлення на сторінку входу
-//   await expect(page).toHaveURL("https://www.redmine.org/login");
-// });
+  await homePage.clickOnRegisterLink();
+  await page.waitForTimeout(500);
+
+  // // Клік по лінку за допомогою CSS селектора
+  // // await page.locator("#account > ul > li > a.register").click();F
+  // // await page.locator("#user_login").click();
+  // // await page.locator("#user_login").fill("loginforrkachuk123");
+  // // await page.locator("#user_password").fill("passwordfortesting");
+  // // await page.locator("#user_password_confirmation").fill("passwordfortesting");
+  // // await page.locator("#user_firstname").fill("Tom");
+  // // await page.locator("#user_lastname").fill("Anderson");
+  // // await page.locator("#user_mail").fill("mailfotaqa123@gmail.com");
+  // // await page.locator('form>input[type="submit"]').click();
+
+  await signUpPage.fillForm({
+    login: "loginforrkachuk53",
+    password: "passwordfortesting",
+    firstName: "Tom",
+    lastName: "Anderson",
+    email: "mailfotaqa53@gmail.com",
+  });
+
+  await signUpPage.submit();
+
+  // const flashNotice = page.locator("#flash_notice");
+  // await expect(flashNotice).toHaveAttribute("class", "flash notice");
+
+  // // Перевірка, чи відбулося перенаправлення на сторінку входу
+  // await expect(page).toHaveURL("https://www.redmine.org/login");
+
+  await loginPage.checkSuccessLoginMsgAttribute("class", "flash notice");
+  // await expect(page).toHaveURL("https://www.redmine.org/login");
+  await checkURL(page, "https://www.redmine.org/login");
+});
 
 // test case 2
 

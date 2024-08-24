@@ -1,48 +1,49 @@
-class SignUpPage {
+import { expect } from "@playwright/test";
+
+class HomePage {
   constructor(page) {
     this.page = page;
   }
 
-  get loginInput() {
-    return this.page.locator("#user_login");
+  get registerLink() {
+    return this.page.locator("#account > ul > li > a.register");
   }
 
-  get passwordInput() {
-    return this.page.locator("#user_password");
+  // get passwordInput() {
+  //   return this.page.locator("#user_password");
+  // }
+
+  // get passwordConfirmationInput() {
+  //   return this.page.locator("#user_password_confirmation");
+  // }
+
+  // get firstNameInput() {
+  //   return this.page.locator("#user_firstname");
+  // }
+
+  // get lastNameInput() {
+  //   return this.page.locator("#user_lastname");
+  // }
+
+  // get emailInput() {
+  //   return this.page.locator("#user_mail");
+  // }
+
+  // get submitButton() {
+  //   return this.page.locator('form>input[type="submit"]');
+  // }
+
+  async clickOnRegisterLink() {
+    await this.registerLink.click();
   }
 
-  get passwordConfirmationInput() {
-    return this.page.locator("#user_password_confirmation");
+  async checkPageTitle(expectedURL) {
+    await expect(this.page).toHaveTitle(expectedURL);
   }
 
-  get firstNameInput() {
-    return this.page.locator("#user_firstname");
-  }
-
-  get lastNameInput() {
-    return this.page.locator("#user_lastname");
-  }
-
-  get emailInput() {
-    return this.page.locator("#user_mail");
-  }
-
-  get submitButton() {
-    return this.page.locator('form>input[type="submit"]');
-  }
-
-  async fillForm({ login, password, firstName, lastName, email }) {
-    await this.loginInput.fill(login);
-    await this.passwordInput.fill(password);
-    await this.passwordConfirmationInput.fill(password);
-    await this.firstNameInput.fill(firstName);
-    await this.lastNameInput.fill(lastName);
-    await this.emailInput.fill(email);
-  }
-
-  async submit() {
-    await this.submitButton.click();
-  }
+  // async submit() {
+  //   await this.submitButton.click();
+  // }
 }
 
-export default SignUpPage;
+export default HomePage;
