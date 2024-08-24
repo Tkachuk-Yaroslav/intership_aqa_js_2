@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
-import SignUpPage from "../pages/Home.page.js";
+// import SignUpPage from "../pages/Home.page.js";
+import SignUpPage from "../pages/SignUp.page.js";
 
 // // test case 1
 // test("Registration of a user on the website using valid data", async ({
