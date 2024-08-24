@@ -19,6 +19,10 @@ class HomePage {
     );
   }
 
+  get issuelsLink() {
+    return this.page.locator('#main-menu a[class="issues"]');
+  }
+
   // get passwordInput() {
   //   return this.page.locator("#user_password");
   // }
@@ -49,6 +53,11 @@ class HomePage {
 
   async clickOnGuideLink() {
     await this.guideLink.click();
+  }
+
+  async clickOnIssuesLink() {
+    await expect(this.issuelsLink).toBeVisible();
+    await this.issuelsLink.click();
   }
 
   async checkPageTitle(expectedURL) {

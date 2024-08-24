@@ -5,6 +5,7 @@ import HomePage from "../pages/Home.page.js";
 import SignUpPage from "../pages/SignUp.page.js";
 import LoginPage from "../pages/Login.page.js";
 import GuidePage from "../pages/Guide.page.js";
+import IssuesPage from "../pages/Issues.page.js";
 
 // // test case 1
 // test("Registration of a user on the website using valid data", async ({
@@ -171,56 +172,66 @@ test("Check the documentation on the User's Guide page", async ({ page }) => {
   await guidePage.checkTextInStepOneTitle(expectedText);
 });
 
-// // test case 4
-// test('Filtering the data on the "issues" page', async ({ page }) => {
-//   await page.goto("https://www.redmine.org/");
+// test case 4
+test('Filtering the data on the "issues" page', async ({ page }) => {
+  const homePage = new HomePage(page);
+  const issuesPage = new IssuesPage(page);
+  await page.goto("https://www.redmine.org/");
 
-//   //знаходжу елемент, провіряю чи видимий і скролю
-//   const issuelsLink = page.locator('#main-menu a[class="issues"]');
-//   await expect(issuelsLink).toBeVisible();
-//   await issuelsLink.click();
+  //знаходжу елемент, провіряю чи видимий і скролю
+  // // const issuelsLink = page.locator('#main-menu a[class="issues"]');
+  // // await expect(issuelsLink).toBeVisible();
+  // // await issuelsLink.click();
+  await homePage.clickOnIssuesLink();
+  await page.waitForTimeout(500);
 
-//   ///////////////////////////////////////////////////////////////
-//   await page.waitForTimeout(500);
+  await handleAd(page);
+  // ///////////////////////////////////////////////////////////////
 
-//   // Знаходимо зовнішній iframe
-//   const outerFrame = page.frameLocator("#aswift_6");
-//   // Всередині зовнішнього iframe знаходимо внутрішній iframe
-//   const innerFrame = outerFrame.frameLocator("#ad_iframe");
+  // // Знаходимо зовнішній iframe
+  // const outerFrame = page.frameLocator("#aswift_6");
+  // // Всередині зовнішнього iframe знаходимо внутрішній iframe
+  // const innerFrame = outerFrame.frameLocator("#ad_iframe");
 
-//   // У внутрішньому iframe знаходимо кнопку і клікаємо по ній
-//   const dismissButton = innerFrame.locator("#dismiss-button");
+  // // У внутрішньому iframe знаходимо кнопку і клікаємо по ній
+  // const dismissButton = innerFrame.locator("#dismiss-button");
 
-//   if (await dismissButton.count()) await dismissButton.click();
-//   ////////////////////////////////////////////////////////////////
-//   await expect(page).toHaveURL(
-//     "https://www.redmine.org/projects/redmine/issues"
-//   );
+  // if (await dismissButton.count()) await dismissButton.click();
+  // ////////////////////////////////////////////////////////////////
+  // // await expect(page).toHaveURL(
+  // //   "https://www.redmine.org/projects/redmine/issues"
+  // // );
 
-//   const filterSelect = page.locator("#add_filter_select");
-//   await filterSelect.selectOption("tracker_id");
+  await checkURL(page, "https://www.redmine.org/projects/redmine/issues");
 
-//   await page.waitForTimeout(500);
+  // // const filterSelect = page.locator("#add_filter_select");
+  // // await filterSelect.selectOption("tracker_id");
+  await issuesPage.selectOptionInFilterSelect("tracker_id");
 
-//   const applyLink = page.locator("#query_form_content+p>a:first-child");
-//   await applyLink.click();
+  await page.waitForTimeout(500);
 
-//   await page.waitForTimeout(500);
+  // // const applyLink = page.locator("#query_form_content+p>a:first-child");
+  // // await applyLink.click();
+  await issuesPage.clickOnApplyLink();
 
-//   const rows = page.locator("tbody > tr td.tracker");
-//   console.log("rows", rows);
-//   const rowCount = await rows.count();
-//   console.log("rowsCount", rowCount);
+  await page.waitForTimeout(500);
 
-//   if (rowCount === 0) {
-//     throw new Error("No rows found in the table");
-//   }
+  // // const rows = page.locator("tbody > tr td.tracker");
+  // // console.log("rows", rows);
+  // // const rowCount = await rows.count();
+  // // console.log("rowsCount", rowCount);
 
-//   for (let i = 0; i < rowCount; i++) {
-//     const trackerText = await rows.nth(i).textContent();
-//     expect(trackerText.trim()).toBe("Defect");
-//   }
-// });
+  // // if (rowCount === 0) {
+  // //   throw new Error("No rows found in the table");
+  // // }
+
+  // // for (let i = 0; i < rowCount; i++) {
+  // //   const trackerText = await rows.nth(i).textContent();
+  // //   expect(trackerText.trim()).toBe("Defect");
+  // // }
+  // // const rowCount = issuesPage.sortedDataArray;
+  await issuesPage.checkSortedDataArray("Defect");
+});
 
 // // test case 5
 // test("Changing the password on the user page", async ({ page }) => {
