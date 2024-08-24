@@ -9,6 +9,16 @@ class HomePage {
     return this.page.locator("#account > ul > li > a.register");
   }
 
+  get docsSection() {
+    return this.page.locator('h2:has-text("Documentation")');
+  }
+
+  get guideLink() {
+    return this.page.locator(
+      '#content ul>li>a[href="/projects/redmine/wiki/Guide"]'
+    );
+  }
+
   // get passwordInput() {
   //   return this.page.locator("#user_password");
   // }
@@ -37,13 +47,18 @@ class HomePage {
     await this.registerLink.click();
   }
 
+  async clickOnGuideLink() {
+    await this.guideLink.click();
+  }
+
   async checkPageTitle(expectedURL) {
     await expect(this.page).toHaveTitle(expectedURL);
   }
 
-  // async submit() {
-  //   await this.submitButton.click();
-  // }
+  async scrollToDocsSection() {
+    await expect(this.docsSection).toBeVisible();
+    await this.docsSection.scrollIntoViewIfNeeded();
+  }
 }
 
 export default HomePage;

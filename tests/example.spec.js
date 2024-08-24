@@ -1,57 +1,59 @@
 import { test, expect } from "@playwright/test";
 import checkURL from "../helpers/urlChecker.js";
+import handleAd from "../helpers/adHandler.js";
 import HomePage from "../pages/Home.page.js";
 import SignUpPage from "../pages/SignUp.page.js";
 import LoginPage from "../pages/Login.page.js";
+import GuidePage from "../pages/Guide.page.js";
 
-// test case 1
-test("Registration of a user on the website using valid data", async ({
-  page,
-}) => {
-  const signUpPage = new SignUpPage(page);
-  const homePage = new HomePage(page);
-  const loginPage = new LoginPage(page);
+// // test case 1
+// test("Registration of a user on the website using valid data", async ({
+//   page,
+// }) => {
+//   const signUpPage = new SignUpPage(page);
+//   const homePage = new HomePage(page);
+//   const loginPage = new LoginPage(page);
 
-  await page.goto("https://www.redmine.org/");
+//   await page.goto("https://www.redmine.org/");
 
-  // Expect a title "to contain" a substring.
-  // // await expect(page).toHaveTitle("Overview - Redmine");
-  await homePage.checkPageTitle("Overview - Redmine");
+//   // Expect a title "to contain" a substring.
+//   // // await expect(page).toHaveTitle("Overview - Redmine");
+//   await homePage.checkPageTitle("Overview - Redmine");
 
-  await homePage.clickOnRegisterLink();
-  await page.waitForTimeout(500);
+//   await homePage.clickOnRegisterLink();
+//   await page.waitForTimeout(500);
 
-  // // Клік по лінку за допомогою CSS селектора
-  // // await page.locator("#account > ul > li > a.register").click();F
-  // // await page.locator("#user_login").click();
-  // // await page.locator("#user_login").fill("loginforrkachuk123");
-  // // await page.locator("#user_password").fill("passwordfortesting");
-  // // await page.locator("#user_password_confirmation").fill("passwordfortesting");
-  // // await page.locator("#user_firstname").fill("Tom");
-  // // await page.locator("#user_lastname").fill("Anderson");
-  // // await page.locator("#user_mail").fill("mailfotaqa123@gmail.com");
-  // // await page.locator('form>input[type="submit"]').click();
+//   // // Клік по лінку за допомогою CSS селектора
+//   // // await page.locator("#account > ul > li > a.register").click();F
+//   // // await page.locator("#user_login").click();
+//   // // await page.locator("#user_login").fill("loginforrkachuk123");
+//   // // await page.locator("#user_password").fill("passwordfortesting");
+//   // // await page.locator("#user_password_confirmation").fill("passwordfortesting");
+//   // // await page.locator("#user_firstname").fill("Tom");
+//   // // await page.locator("#user_lastname").fill("Anderson");
+//   // // await page.locator("#user_mail").fill("mailfotaqa123@gmail.com");
+//   // // await page.locator('form>input[type="submit"]').click();
 
-  await signUpPage.fillForm({
-    login: "loginforrkachuk41",
-    password: "passwordfortesting",
-    firstName: "Tom",
-    lastName: "Anderson",
-    email: "mailfotaqa41@gmail.com",
-  });
+//   await signUpPage.fillForm({
+//     login: "loginforrkachuk41",
+//     password: "passwordfortesting",
+//     firstName: "Tom",
+//     lastName: "Anderson",
+//     email: "mailfotaqa41@gmail.com",
+//   });
 
-  await signUpPage.submit();
+//   await signUpPage.submit();
 
-  // const flashNotice = page.locator("#flash_notice");
-  // await expect(flashNotice).toHaveAttribute("class", "flash notice");
+//   // const flashNotice = page.locator("#flash_notice");
+//   // await expect(flashNotice).toHaveAttribute("class", "flash notice");
 
-  // // Перевірка, чи відбулося перенаправлення на сторінку входу
-  // await expect(page).toHaveURL("https://www.redmine.org/login");
+//   // // Перевірка, чи відбулося перенаправлення на сторінку входу
+//   // await expect(page).toHaveURL("https://www.redmine.org/login");
 
-  await loginPage.checkSuccessLoginMsgAttribute("class", "flash notice");
-  // await expect(page).toHaveURL("https://www.redmine.org/login");
-  await checkURL(page, "https://www.redmine.org/login");
-});
+//   await loginPage.checkSuccessLoginMsgAttribute("class", "flash notice");
+//   // await expect(page).toHaveURL("https://www.redmine.org/login");
+//   await checkURL(page, "https://www.redmine.org/login");
+// });
 
 // test case 2
 
@@ -98,62 +100,76 @@ test("Registration of a user on the website using invalid email", async ({
   await checkURL(page, "https://www.redmine.org/account/register");
 });
 
-// //test case 3
-// test("Check the documentation on the User's Guide page", async ({ page }) => {
-//   await page.goto("https://www.redmine.org/");
+//test case 3
+test("Check the documentation on the User's Guide page", async ({ page }) => {
+  const homePage = new HomePage(page);
+  const guidePage = new GuidePage(page);
+  await page.goto("https://www.redmine.org/");
 
-//   //знаходжу елемент, провіряю чи видимий і скролю
-//   const docsSection = page.locator('h2:has-text("Documentation")');
-//   await expect(docsSection).toBeVisible();
-//   await docsSection.scrollIntoViewIfNeeded();
+  //знаходжу елемент, провіряю чи видимий і скролю
+  // // const docsSection = page.locator('h2:has-text("Documentation")');
+  // // await expect(docsSection).toBeVisible();
+  // // await docsSection.scrollIntoViewIfNeeded();
+  await homePage.scrollToDocsSection();
 
-//   const guideLink = page.locator(
-//     '#content ul>li>a[href="/projects/redmine/wiki/Guide"]'
-//   );
-//   await guideLink.click();
+  // // const guideLink = page.locator(
+  // //   '#content ul>li>a[href="/projects/redmine/wiki/Guide"]'
+  // // );
+  // // await guideLink.click();
 
-//   // Чекаємо певний час перед повторною перевіркою
-//   await page.waitForTimeout(500);
+  await homePage.clickOnGuideLink();
 
-//   // Знаходимо зовнішній iframe
-//   const outerFrame = page.frameLocator("#aswift_6");
+  // Чекаємо певний час перед повторною перевіркою
+  await page.waitForTimeout(500);
 
-//   // Всередині зовнішнього iframe знаходимо внутрішній iframe
-//   const innerFrame = outerFrame.frameLocator("#ad_iframe");
+  await handleAd(page);
 
-//   // У внутрішньому iframe знаходимо кнопку і клікаємо по ній
-//   const dismissButton = innerFrame.locator("#dismiss-button");
-//   // let dismissButton = null;
-//   // if (innerFrame) {
-//   //   dismissButton = innerFrame.locator("#dismiss-button");
-//   // } else {
-//   //   dismissButton = outerFrame.locator("#dismiss-button");
-//   // }
+  // // // Знаходимо зовнішній iframe
+  // // const outerFrame = page.frameLocator("#aswift_6");
 
-//   if (await dismissButton.count()) await dismissButton.click();
-//   // if (await expect(dismissButton).toBeVisible()) {
-//   //   await dismissButton.click();
-//   // }
+  // // // Всередині зовнішнього iframe знаходимо внутрішній iframe
+  // // const innerFrame = outerFrame.frameLocator("#ad_iframe");
 
-//   //знаходжу елемент, провіряю чи видимий і скролю
-//   const guideSection = page.locator('h2:has-text("User guide")');
-//   // await expect(guideSection).toBeVisible();
-//   await guideSection.scrollIntoViewIfNeeded();
+  // // // У внутрішньому iframe знаходимо кнопку і клікаємо по ній
+  // // const dismissButton = innerFrame.locator("#dismiss-button");
+  // // // let dismissButton = null;
+  // // // if (innerFrame) {
+  // // //   dismissButton = innerFrame.locator("#dismiss-button");
+  // // // } else {
+  // // //   dismissButton = outerFrame.locator("#dismiss-button");
+  // // // }
 
-//   const getStartedLink = page.locator(
-//     'a[href="/projects/redmine/wiki/Getting_Started"]'
-//   );
-//   await getStartedLink.click();
+  // // if (await dismissButton.count()) await dismissButton.click();
+  // if (await expect(dismissButton).toBeVisible()) {
+  //   await dismissButton.click();
+  // }
 
-//   await expect(page).toHaveURL(
-//     "https://www.redmine.org/projects/redmine/wiki/Getting_Started"
-//   );
+  // //знаходжу елемент, провіряю чи видимий і скролю
+  // const guideSection = page.locator('h2:has-text("User guide")');
+  // // await expect(guideSection).toBeVisible();
+  // await guideSection.scrollIntoViewIfNeeded();
+  await guidePage.scrollToGuideSection();
 
-//   const expectedText = "Step One -- Creating a project¶";
+  // // const getStartedLink = page.locator(
+  // //   'a[href="/projects/redmine/wiki/Getting_Started"]'
+  // // );
+  // // await getStartedLink.click();
+  await guidePage.clickOnGetStartedLink();
 
-//   const stepOne = page.locator("#content > div.wiki-page > h2:nth-child(6)");
-//   await expect(stepOne).toHaveText(expectedText);
-// });
+  // // await expect(page).toHaveURL(
+  // //   "https://www.redmine.org/projects/redmine/wiki/Getting_Started"
+  // // );
+  await checkURL(
+    page,
+    "https://www.redmine.org/projects/redmine/wiki/Getting_Started"
+  );
+
+  const expectedText = "Step One -- Creating a project¶";
+
+  // // const stepOne = page.locator("#content > div.wiki-page > h2:nth-child(6)");
+  // // await expect(stepOne).toHaveText(expectedText);
+  await guidePage.checkTextInStepOneTitle(expectedText);
+});
 
 // // test case 4
 // test('Filtering the data on the "issues" page', async ({ page }) => {
