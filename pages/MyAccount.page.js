@@ -21,22 +21,9 @@ class MyAccountPage {
     return this.page.locator("#new_password_confirmation");
   }
 
-  //   get passwordInput() {
-  //     return this.page.locator("#password");
-  //   }
-
   get submitButton() {
     return this.page.locator('form>input[type="submit"]');
   }
-
-  //   get successLoginMsg() {
-  //     return this.page.locator("#flash_notice");
-  //   }
-
-  //   async checkSuccessLoginMsgAttribute(attr, value) {
-  //     await expect(this.successLoginMsg).toHaveAttribute(attr, value);
-  //   }
-
   async clickOnChangePasswordLink() {
     await this.changePasswordLink.click();
   }

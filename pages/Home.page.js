@@ -31,30 +31,6 @@ class HomePage {
     return this.page.locator("#account > ul > li > a.my-account");
   }
 
-  // get passwordInput() {
-  //   return this.page.locator("#user_password");
-  // }
-
-  // get passwordConfirmationInput() {
-  //   return this.page.locator("#user_password_confirmation");
-  // }
-
-  // get firstNameInput() {
-  //   return this.page.locator("#user_firstname");
-  // }
-
-  // get lastNameInput() {
-  //   return this.page.locator("#user_lastname");
-  // }
-
-  // get emailInput() {
-  //   return this.page.locator("#user_mail");
-  // }
-
-  // get submitButton() {
-  //   return this.page.locator('form>input[type="submit"]');
-  // }
-
   async clickOnRegisterLink() {
     await this.registerLink.click();
   }

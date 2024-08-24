@@ -17,14 +17,6 @@ class IssuesPage {
     return this.page.locator("tbody > tr td.tracker");
   }
 
-  //   get rowCount() {
-  //     return this.sortedDataArray.count();
-  //   }
-
-  //   get successLoginMsg() {
-  //     return this.page.locator("#flash_notice");
-  //   }
-
   async selectOptionInFilterSelect(option) {
     await this.filterSelect.selectOption(option);
   }
