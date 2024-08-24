@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 class SignUpPage {
   constructor(page) {
     this.page = page;
@@ -31,6 +33,10 @@ class SignUpPage {
     return this.page.locator('form>input[type="submit"]');
   }
 
+  get errorMsg() {
+    return this.page.locator("#errorExplanation>ul>li");
+  }
+
   async fillForm({ login, password, firstName, lastName, email }) {
     await this.loginInput.fill(login);
     await this.passwordInput.fill(password);
@@ -42,6 +48,10 @@ class SignUpPage {
 
   async submit() {
     await this.submitButton.click();
+  }
+
+  async checkTextInErrorMsg(expectedText) {
+    await expect(this.errorMsg).toHaveText(expectedText);
   }
 }
 

@@ -33,11 +33,11 @@ test("Registration of a user on the website using valid data", async ({
   // // await page.locator('form>input[type="submit"]').click();
 
   await signUpPage.fillForm({
-    login: "loginforrkachuk53",
+    login: "loginforrkachuk41",
     password: "passwordfortesting",
     firstName: "Tom",
     lastName: "Anderson",
-    email: "mailfotaqa53@gmail.com",
+    email: "mailfotaqa41@gmail.com",
   });
 
   await signUpPage.submit();
@@ -59,13 +59,16 @@ test("Registration of a user on the website using invalid email", async ({
   page,
 }) => {
   const signUpPage = new SignUpPage(page);
+  const homePage = new HomePage(page);
   await page.goto("https://www.redmine.org/");
 
   // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle("Overview - Redmine");
-
+  // await expect(page).toHaveTitle("Overview - Redmine");
+  await homePage.checkPageTitle("Overview - Redmine");
+  await homePage.clickOnRegisterLink();
+  await page.waitForTimeout(500);
   // Клік по лінку за допомогою CSS селектора
-  await page.locator("#account > ul > li > a.register").click();
+  // // await page.locator("#account > ul > li > a.register").click();
   // // await page.locator("#user_login").click();
   // // await page.locator("#user_login").fill("loginforrkachuk2");
   // // await page.locator("#user_password").fill("passwordfortesting");
@@ -86,11 +89,13 @@ test("Registration of a user on the website using invalid email", async ({
   await signUpPage.submit();
 
   // Перевірка, що елемент має потрібний текст
-  const errorMessage = page.locator("#errorExplanation>ul>li");
-  await expect(errorMessage).toHaveText("Email is invalid");
+  // const errorMessage = page.locator("#errorExplanation>ul>li");
+  // await expect(errorMessage).toHaveText("Email is invalid");
+  await signUpPage.checkTextInErrorMsg("Email is invalid");
 
   // Перевірка, чи відбулося перенаправлення на сторінку входу
-  await expect(page).toHaveURL("https://www.redmine.org/account/register");
+  // await expect(page).toHaveURL("https://www.redmine.org/account/register");
+  await checkURL(page, "https://www.redmine.org/account/register");
 });
 
 // //test case 3
