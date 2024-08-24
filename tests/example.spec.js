@@ -6,6 +6,7 @@ import SignUpPage from "../pages/SignUp.page.js";
 import LoginPage from "../pages/Login.page.js";
 import GuidePage from "../pages/Guide.page.js";
 import IssuesPage from "../pages/Issues.page.js";
+import MyAccountPage from "../pages/MyAccount.page.js";
 
 // // test case 1
 // test("Registration of a user on the website using valid data", async ({
@@ -233,28 +234,52 @@ test('Filtering the data on the "issues" page', async ({ page }) => {
   await issuesPage.checkSortedDataArray("Defect");
 });
 
-// // test case 5
-// test("Changing the password on the user page", async ({ page }) => {
-//   await page.goto("https://www.redmine.org/");
+// test case 5
+test("Changing the password on the user page", async ({ page }) => {
+  const homePage = new HomePage(page);
+  const loginPage = new LoginPage(page);
+  const myAccountPage = new MyAccountPage(page);
+  await page.goto("https://www.redmine.org/");
 
-//   await page.locator("#account > ul > li > a.login").click();
-//   /////////////////////////////////////////////////////
-//   await page.locator("#username").fill("tkachuky105105");
-//   await page.locator("#password").fill("Qweqweqwe123456");
-//   await page.locator("#login-submit").click();
-//   ///////////////////////////////////////////////////////
-//   await page.locator("#account > ul > li > a.my-account").click();
-//   await page.locator("#content a.icon-passwd").click();
+  // // await page.locator("#account > ul > li > a.login").click();
+  await homePage.clickOnLoginLink();
+  await loginPage.fillLoginForm("tkachuky105105", "Qweqweqwe7");
+  /////////////////////////////////////////////////////
+  // // await page.locator("#username").fill("tkachuky105105");
+  // // await page.locator("#password").fill("Qweqweqwe7");
+  // await page.waitForTimeout(500);
 
-//   await page.locator("#password").fill("Qweqweqwe123456");
-//   await page.locator("#new_password").fill("Qweqweqwe7");
-//   await page.locator("#new_password_confirmation").fill("Qweqweqwe7");
+  await loginPage.submit();
+  // await page.waitForTimeout(500);
 
-//   await page.locator('form>input[type="submit"]').click();
+  // // await page.locator("#login-submit").click();
+  // ///////////////////////////////////////////////////////
+  // // await page.locator("#account > ul > li > a.my-account").click();
+  // // await page.locator("#content a.icon-passwd").click();
 
-//   await expect(page).toHaveURL("https://www.redmine.org/my/account");
+  await homePage.clickOnMyAccountLink();
+  // await page.waitForTimeout(500);
 
-//   // await page.locator("#flash_notice").toHaveText("Пароль успішно оновлений.");
+  await myAccountPage.clickOnChangePasswordLink();
+  // await page.waitForTimeout(500);
 
-//   await page.waitForTimeout(500);
-// });
+  // await page.locator("#password").fill("Qweqweqwe7");
+  // await page.locator("#new_password").fill("Qweqweqwe77");
+  // await page.locator("#new_password_confirmation").fill("Qweqweqwe77");
+  await myAccountPage.fillChangePasswdForm(
+    "Qweqweqwe7",
+    "Qweqweqwe77",
+    "Qweqweqwe77"
+  );
+  // await page.waitForTimeout(500);
+
+  // // await page.locator('form>input[type="submit"]').click();
+  await myAccountPage.clickOnSubmitButton();
+
+  // await expect(page).toHaveURL("https://www.redmine.org/my/account");
+  await checkURL(page, "https://www.redmine.org/my/account");
+
+  // // await page.locator("#flash_notice").toHaveText("Пароль успішно оновлений.");
+
+  await page.waitForTimeout(500);
+});

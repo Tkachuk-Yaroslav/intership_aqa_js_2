@@ -9,6 +9,10 @@ class HomePage {
     return this.page.locator("#account > ul > li > a.register");
   }
 
+  get loginLink() {
+    return this.page.locator("#account > ul > li > a.login");
+  }
+
   get docsSection() {
     return this.page.locator('h2:has-text("Documentation")');
   }
@@ -21,6 +25,10 @@ class HomePage {
 
   get issuelsLink() {
     return this.page.locator('#main-menu a[class="issues"]');
+  }
+
+  get myAccountLink() {
+    return this.page.locator("#account > ul > li > a.my-account");
   }
 
   // get passwordInput() {
@@ -51,6 +59,10 @@ class HomePage {
     await this.registerLink.click();
   }
 
+  async clickOnLoginLink() {
+    await this.loginLink.click();
+  }
+
   async clickOnGuideLink() {
     await this.guideLink.click();
   }
@@ -58,6 +70,10 @@ class HomePage {
   async clickOnIssuesLink() {
     await expect(this.issuelsLink).toBeVisible();
     await this.issuelsLink.click();
+  }
+
+  async clickOnMyAccountLink() {
+    await this.myAccountLink.click();
   }
 
   async checkPageTitle(expectedURL) {

@@ -5,17 +5,17 @@ class LoginPage {
     this.page = page;
   }
 
-  //   get loginInput() {
-  //     return this.page.locator("#user_login");
-  //   }
+  get loginInput() {
+    return this.page.locator("#username");
+  }
 
-  //   get passwordInput() {
-  //     return this.page.locator("#user_password");
-  //   }
+  get passwordInput() {
+    return this.page.locator("#password");
+  }
 
-  //   get submitButton() {
-  //     return this.page.locator('form>input[type="submit"]');
-  //   }
+  get submitButton() {
+    return this.page.locator("#login-submit");
+  }
 
   get successLoginMsg() {
     return this.page.locator("#flash_notice");
@@ -27,6 +27,11 @@ class LoginPage {
 
   async submit() {
     await this.submitButton.click();
+  }
+
+  async fillLoginForm(login, password) {
+    await this.loginInput.fill(login);
+    await this.passwordInput.fill(password);
   }
 }
 
