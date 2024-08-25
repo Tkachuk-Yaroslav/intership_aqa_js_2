@@ -16,7 +16,7 @@
 
 ### Requirements for Test Cases:
 
-Test ase 1: The login and email must be unregistered each time before running the test.
+Test сase 1: The login and email must be unregistered each time before running the test.
 Test case 5: A valid password must be entered each time before running the test.
 
 ### Test case 1

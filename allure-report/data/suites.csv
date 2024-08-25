@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","15884","Changing the password on the user page","chromium","Sun Aug 25 23:56:13 EEST 2024","passed","Sun Aug 25 23:56:29 EEST 2024","","myAccountPage.spec.js","",""
+"","14848","Registration of a user on the website using invalid email","chromium","Sun Aug 25 23:56:13 EEST 2024","passed","Sun Aug 25 23:56:28 EEST 2024","","register.spec.js","",""
+"","15404","Registration of a user on the website using valid data","chromium","Sun Aug 25 23:56:13 EEST 2024","passed","Sun Aug 25 23:56:28 EEST 2024","","register.spec.js","",""
+"","15846","Filtering the data on the ""issues"" page","chromium","Sun Aug 25 23:56:13 EEST 2024","passed","Sun Aug 25 23:56:29 EEST 2024","","issuesPage.spec.js","",""
+"","7103","Check the documentation on the User's Guide page","chromium","Sun Aug 25 23:56:30 EEST 2024","passed","Sun Aug 25 23:56:37 EEST 2024","","usersGuidePage.spec.js","",""
