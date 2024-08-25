@@ -13,7 +13,7 @@ test("Changing the password on the user page", async ({ page }) => {
 
   await homePage.clickOnLoginLink();
   //REQUIREMENTS: a valid password must be entered each time before passing the test
-  await loginPage.fillLoginForm("tkachuky105105", "Qweqweqwe0321");
+  await loginPage.fillLoginForm("tkachuky105105", "Qweqweqwe8");
 
   await loginPage.submit();
   await homePage.clickOnMyAccountLink();
@@ -21,7 +21,7 @@ test("Changing the password on the user page", async ({ page }) => {
   await myAccountPage.clickOnChangePasswordLink();
 
   await myAccountPage.fillChangePasswdForm(
-    "Qweqweqwe0321",
+    "Qweqweqwe8",
     "Qweqweqwe0322",
     "Qweqweqwe0322"
   );
