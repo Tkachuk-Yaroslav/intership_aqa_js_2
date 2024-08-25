@@ -43,71 +43,78 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [main, master]
+    branches: [ main, master ]
   pull_request:
-    branches: [main, master]
+    branches: [ main, master ]
 
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
 
-      - name: Install dependencies
-        run: npm ci
+    - name: Install dependencies
+      run: npm ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
 
-      # Копіювання даних Allure з попередніх запусків
-      - name: Copy previous Allure data
-        run: |
-          if [ -d allure-results ]; then
-            cp -R allure-results/* allure-results-previous/ || true
-          fi
+    # Копіювання даних Allure з попередніх запусків
+    - name: Copy previous Allure data
+      run: |
+        if [ -d allure-results ]; then
+          mkdir -p allure-results-previous
+          cp -R allure-results/* allure-results-previous/ || true
+        fi
 
-      # Запуск тестів Playwright
-      - name: Run Playwright tests
-        run: npx playwright test
+    # Запуск тестів Playwright
+    - name: Run Playwright tests
+      run: npx playwright test
 
-      # Встановлення Allure Commandline
-      - name: Install Allure Commandline
-        run: npm install -g allure-commandline --save-dev
+    # Встановлення Allure Commandline
+    - name: Install Allure Commandline
+      run: npm install -g allure-commandline --save-dev
 
-      # Створення нового звіту Allure
-      - name: Generate Allure report
-        run: |
-          allure generate allure-results allure-results-previous --clean -o allure-report
+    # Створення нового звіту Allure
+    - name: Generate Allure report
+      run: |
+        allure generate allure-results allure-results-previous --clean -o allure-report
 
-      # Завантаження звіту Allure як артефакту
-      - name: Upload Allure report as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report/
-          retention-days: 30
+    # Завантаження звіту Allure як артефакту
+    - name: Upload Allure report as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report
+        path: allure-report/
+        retention-days: 30
 
-      # Пуш звіту до іншої гілки репозиторію
-      - name: Push Allure report to branch
-        run: |
-          git config --global user.email "tkachuky105@gmail.com"
-          git config --global user.name "Tkachuk-Yaroslav"
-          git checkout -b gh-pages || git checkout gh-pages
-          cp -R allure-report/* .
-          git add .
-          git commit -m "Update Allure report"
-          git push origin gh-pages --force
+    # Пуш звіту до іншої гілки репозиторію
+    - name: Push Allure report to branch
+      run: |
+        git config --global user.email "tkachuky105@gmail.com"
+        git config --global user.name "Tkachuk-Yaroslav"
+        git fetch origin gh-pages || true
+        if git show-ref --quiet refs/heads/gh-pages; then
+          git checkout gh-pages
+        else
+          git checkout -b gh-pages
+        fi
+        cp -R allure-report/* .
+        git add .
+        git commit -m "Update Allure report" || echo "No changes to commit"
+        git push origin gh-pages --force || echo "Failed to push to gh-pages branch"
 
-      # Додавання посилання на GitHub Pages у опис
-      - name: Add GitHub Pages link to description
-        run: |
-          echo "Allure Report: https://Tkachuk-Yaroslav.github.io/intership_aqa_js_2/" >> README.md
-          git add README.md
-          git commit -m "Add GitHub Pages link to README"
-          git push origin main
+    # Додавання посилання на GitHub Pages у опис
+    - name: Add GitHub Pages link to description
+      run: |
+        echo "Allure Report: https://Tkachuk-Yaroslav.github.io/intership_aqa_js_2/" >> README.md
+        git add README2.md
+        git commit -m "Add GitHub Pages link to README" || echo "No changes to commit"
+        git push origin main || echo "Failed to push changes to main branch"
+
