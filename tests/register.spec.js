@@ -21,11 +21,11 @@ test("Registration of a user on the website using valid data", async ({
 
   //REQUIREMENTS: before passing the test, the login and mail must be unregistered each time
   await signUpPage.fillForm({
-    login: "loginforrkachuk197",
+    login: "loginforrkachuk196",
     password: "passwordfortesting",
     firstName: "Tom",
     lastName: "Anderson",
-    email: "mailfotaqa197@gmail.com",
+    email: "mailfotaqa196@gmail.com",
   });
 
   await signUpPage.submit();
