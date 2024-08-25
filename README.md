@@ -16,8 +16,8 @@
 
 ### Requirements for Test Cases:
 
-Test сase 1: The login and email must be unregistered each time before running the test.
-Test case 5: A valid password must be entered each time before running the test.
+- Test case 1: The login and email must be unregistered each time before running the test.
+- Test case 5: A valid password must be entered each time before running the test.
 
 ### Test case 1
 
@@ -71,7 +71,7 @@ Title: Changing the password on the user page
 
 Preconditions:
 
-- The user is registered on the site (login – tkachuky105105, password - Qweqweqwe0)
+- The user is registered on the site (login – tkachuky105105, password - Qweqweqwe0322)
 - The "My Account" page is open
 
 | #   | Steps                              | Expected result                                                                                       |
@@ -79,3 +79,19 @@ Preconditions:
 | 1   | Click on the "Змінити пароль" link | The password change page is displayed                                                                 |
 | 2   | Fill all fields with valid data    | The entered data is displayed in the fields                                                           |
 | 3   | Click on the "Застосувати" button  | The "Пароль успішно оновлений." message is displayed. The user is redirected to the "My Account" page |
+
+## GitHub Actions
+
+This project uses GitHub Actions to run Playwright tests and generate Allure reports.
+
+### Workflow Steps
+
+1. **Install Dependencies**: Installs Node.js dependencies.
+2. **Install Playwright Browsers**: Installs required browsers for Playwright.
+3. **Run Playwright Tests**: Executes the Playwright tests.
+4. **Install Allure Commandline**: Installs the Allure Commandline tool.
+5. **Generate Allure Report**: Creates an Allure report from the test results.
+
+## GitHub Pages
+
+The Allure report is available at: [https://Tkachuk-Yaroslav.github.io/intership_aqa_js_2/](https://Tkachuk-Yaroslav.github.io/intership_aqa_js_2/)
